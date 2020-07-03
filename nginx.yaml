@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-nginx
+spec:
+  selector:
+    app: my-nginx
+  ports:
+    - name: http
+    # Port accessible inside cluster
+      port : 80
+    # Port to forward to inside the pod
+      targetPort: 80
+      protocol: "TCP"
+    - name: https
+      port : 443
+      targetPort : 443
+      protocol: "TCP"
+      # Port accessible outside cluster
+      nodePort: 30002
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  selector: #select pod to apply
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: tmp
+        imagePullPolicy: Never
+        ports:
+        - name: http 
+          containerPort: 80
+        - name: https
+          containerPort: 443
