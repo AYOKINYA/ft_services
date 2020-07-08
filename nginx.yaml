@@ -1,47 +1,54 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: my-nginx
+        name: nginx-service
+        labels:
+                app: nginx
 spec:
-  selector:
-    app: my-nginx
-  ports:
-    - name: http
-    # Port accessible inside cluster
-      port : 80
-    # Port to forward to inside the pod
-      targetPort: 80
-      protocol: "TCP"
-    - name: https
-      port : 443
-      targetPort : 443
-      protocol: "TCP"
-      # Port accessible outside cluster
-      nodePort: 30002
-  type: LoadBalancer
+        selector:
+                app: nginx
+        type: LoadBalancer
+        ports:
+                - port: 80
+                  name: nginx-http
+                  targetPort: 80
+                  nodePort: 80
+                - port: 443
+                  name: nginx-https
+                  targetPort: 443
+                  nodePort: 443
+                - port: 10022
+                  name: nginx-ssh
+                  targetPort: 10022
+                  nodePort: 10022
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx
+        name: nginx-deployment
+        labels:
+                app: nginx
 spec:
-  selector: #select pod to apply
-    matchLabels:
-      run: my-nginx
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        run: my-nginx
-    spec:
-      containers:
-      - name: my-nginx
-        image: tmp
-        imagePullPolicy: Never
-        ports:
-        - name: http 
-          containerPort: 80
-        - name: https
-          containerPort: 443
+        selector:
+                matchLabels:
+                        app: nginx
+        replicas: 1
+        template:
+                metadata:
+                        name: nginx-pod
+                        labels:
+                                app: nginx
+                spec:
+                        containers:
+                                - name: nginx-container
+                                  image: service_nginx
+                                  imagePullPolicy: Never
+                                  ports:
+                                          - containerPort: 80
+                                            name: nginx-http
+                                          - containerPort: 443
+                                            name: nginx-https
+                                          - containerPort: 22
+                                            name: nginx-ssh

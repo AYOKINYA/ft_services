@@ -26,7 +26,7 @@ RUN echo "admin:admin" | chpasswd
 # RUN echo "root:root" | chpasswd  root 비번 안 바꾸고 어드민 추가해서 어드민 비번 변경
 RUN mkdir -p /var/run/sshd
 
-EXPOSE 80 443 22
-COPY setup.sh   ./setup.sh
-CMD sh ./setup.sh
+EXPOSE 80 443 10022
+COPY start.sh   ./start.sh
+CMD sh ./start.sh
 
