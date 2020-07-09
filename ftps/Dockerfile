@@ -1,7 +1,5 @@
 FROM alpine
 
-ARG PUREFTPD_VERSION=1.0.49
-
 RUN apk update
 
 #RUN apk add --no-cache pure-ftpd이 안 되네 ㅋ...
