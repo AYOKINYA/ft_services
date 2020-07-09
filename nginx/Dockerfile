@@ -24,6 +24,7 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
 RUN adduser -D admin
 RUN echo "admin:admin" | chpasswd
 # RUN echo "root:root" | chpasswd  root 비번 안 바꾸고 어드민 추가해서 어드민 비번 변경
+RUN echo "Port 10022" >> /etc/ssh/sshd_config
 RUN mkdir -p /var/run/sshd
 
 EXPOSE 80 443 10022
