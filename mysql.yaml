@@ -3,16 +3,16 @@ kind: Service
 metadata:
   name: mysql-service
   labels:
-    app: mysql
+	app: mysql
 spec:
   type: LoadBalancer
   ports:
   - port: 3306
-    targetPort: 3306
-    nodePort: 3306
-    name: mysql
+	targetPort: 3306
+	nodePort: 3306
+	name: mysql
   selector:
-    app: mysql
+	app: mysql
 
 ---
 
@@ -21,13 +21,13 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
   labels:
-    app: mysql
+	app: mysql
 spec:
   accessModes:
   - ReadWriteMany
   resources:
-    requests:
-      storage: 1Gi
+	requests:
+	  storage: 1Gi
 
 ---
 apiVersion: apps/v1
@@ -35,28 +35,28 @@ kind: Deployment
 metadata:
   name: mysql-deployment
   labels:
-    app: mysql
+	app: mysql
 spec:
   selector:
-    matchLabels:
-      app: mysql
+	matchLabels:
+	  app: mysql
   template:
-    metadata:
-      name: mysql-pod
-      labels:
-        app: mysql
-    spec:
-      containers:
-      - name: mysql-container
-        image: service_mysql
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 3306
-          name: mysql
-        volumeMounts:
-        - name: mysql-pv
-          mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-pv
-        persistentVolumeClaim:
-          claimName: mysql-pvc
+	metadata:
+	  name: mysql-pod
+	  labels:
+		app: mysql
+	spec:
+	  containers:
+	  - name: mysql-container
+		image: service_mysql
+		imagePullPolicy: Never
+		ports:
+		- containerPort: 3306
+		  name: mysql
+		volumeMounts:
+		- name: mysql-pv
+		  mountPath: /var/lib/mysql
+	  volumes:
+	  - name: mysql-pv
+		persistentVolumeClaim:
+		  claimName: mysql-pvc
