@@ -24,6 +24,7 @@ echo ${IP} > /ftps/ip.txt
 echo "Building images..."
 docker build -t service_nginx ./nginx
 docker build -t service_mysql ./mysql
+docker build -t service_phpmyadmin ./phpmyadmin
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
@@ -32,6 +33,7 @@ kubectl apply -f metalLB_config.yaml
 echo "Creating pods and services..."
 kubectl create -f nginx.yaml
 kubectl create -f mysql.yaml
+kubectl create -f phpmyadmin.yaml
 
 echo "Opening the network in your browser"
 #open http://$IP
