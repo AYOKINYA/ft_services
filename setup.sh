@@ -18,22 +18,21 @@ eval $(minikube docker-env)
 export IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 printf "Minikube IP: ${IP}\n"
 
-echo ${IP} > /nginx/ip.txt
-echo ${IP} > /ftps/ip.txt
-
 echo "Building images..."
 docker build -t image_nginx ./nginx
 docker build -t image_mysql ./mysql
 docker build -t image_phpmyadmin ./phpmyadmin
+docker build -t image_wordpress ./wordpress --build-arg IP=${IP}
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 kubectl apply -f metalLB_config.yaml
 
 echo "Creating pods and services..."
-kubectl create -f nginx.yaml
+kubectl create -f nginx.yaml 
 kubectl create -f mysql.yaml
 kubectl create -f phpmyadmin.yaml
+kubectl create -f wordpress.yaml
 
 echo "Opening the network in your browser"
 #open http://$IP
