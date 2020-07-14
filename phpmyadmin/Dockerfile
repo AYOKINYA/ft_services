@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk update && apk upgrade && apk add bash
+RUN apk update && apk upgrade
 
 #install php for mysql and myphpadmin
 RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session
@@ -8,7 +8,7 @@ RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl p
 COPY ./pma_install.sh ./pma_install.sh
 RUN sh ./pma_install.sh
 
-COPY config.inc.php /www/config.inc.php
+COPY config.inc.php /etc/phpmyadmin/config.inc.php
 
 EXPOSE 5000
 COPY start.sh   ./start.sh

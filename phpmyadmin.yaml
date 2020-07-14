@@ -34,7 +34,7 @@ spec:
         spec:
             containers:
                 - name: phpmyadmin-container
-                  image: service_phpmyadmin
+                  image: image_phpmyadmin
                   imagePullPolicy: Never
                   ports:
                       - containerPort: 5000

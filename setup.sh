@@ -22,9 +22,9 @@ echo ${IP} > /nginx/ip.txt
 echo ${IP} > /ftps/ip.txt
 
 echo "Building images..."
-docker build -t service_nginx ./nginx
-docker build -t service_mysql ./mysql
-docker build -t service_phpmyadmin ./phpmyadmin
+docker build -t image_nginx ./nginx
+docker build -t image_mysql ./mysql
+docker build -t image_phpmyadmin ./phpmyadmin
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
