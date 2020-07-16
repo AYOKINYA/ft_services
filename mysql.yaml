@@ -38,7 +38,7 @@ spec:
     selector:
         matchLabels:
             app: mysql
-    replicas: 1
+    replicas: 2
     template:
         metadata:
             labels:

@@ -23,6 +23,8 @@ docker build -t image_nginx ./nginx
 docker build -t image_mysql ./mysql
 docker build -t image_phpmyadmin ./phpmyadmin
 docker build -t image_wordpress ./wordpress --build-arg IP=${IP}
+docker build -t image_grafana ./grafana
+#docker build -t image_influxdb ./grafana
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
@@ -33,6 +35,8 @@ kubectl create -f nginx.yaml
 kubectl create -f mysql.yaml
 kubectl create -f phpmyadmin.yaml
 kubectl create -f wordpress.yaml
+kubectl create -f grafana.yaml
+#kubectl create -f influxdb.yaml
 
 echo "Opening the network in your browser"
 #open http://$IP
