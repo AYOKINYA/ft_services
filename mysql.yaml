@@ -12,7 +12,6 @@ spec:
         - port: 3306
           name: mysql-port
           targetPort: 3306
-          nodePort: 3306
 
 ---
 
