@@ -7,12 +7,29 @@ metadata:
 spec:
     selector:
         app: influxdb
-    type: LoadBalancer
+    type: ClusterIP
     ports:
         - port: 8086
-          name: influxdb
+          name: influxdb-port
           targetPort: 8086
           nodePort: 8086
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: influxdb-pv
+    labels:
+        type: local
+spec:
+    storageClassName: influxdb-db
+    accessModes:
+        - ReadWriteMany
+    capacity:
+        storage: 1Gi
+    hostPath:
+        path: /var/lib/influxdb/
 
 ---
 
@@ -21,6 +38,7 @@ kind: PersistentVolumeClaim
 metadata:
     name: influxdb-pvc
 spec:
+    storageClassName: influxdb-db
     accessModes:
         - ReadWriteMany
     resources:
@@ -39,7 +57,7 @@ spec:
     selector:
         matchLabels:
             app: influxdb
-    replicas: 2
+    replicas: 1
     template:
         metadata:
             labels:
@@ -51,11 +69,11 @@ spec:
                   imagePullPolicy: Never
                   ports:
                       - containerPort: 8086
-                        name: influxdb
+                        name: influxdb-port
                   volumeMounts:
                       - name: influxdb-pv
-                        mountPath: /var/lib/influxdb.
+                        mountPath: /var/lib/influxdb/
             volumes:
-                 - name: influxdb-pv
-                   persistentVolumeClaim:
-                          claimName: influxdb-pvc
+                - name: influxdb-pv
+                  persistentVolumeClaim:
+                      claimName: influxdb-pvc
