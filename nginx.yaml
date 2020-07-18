@@ -50,5 +50,10 @@ spec:
                                             name: nginx-http
                                           - containerPort: 443
                                             name: nginx-https
-                                          - containerPort: 22
+                                          - containerPort: 10022
                                             name: nginx-ssh
+                                  livenessProbe:
+                                        tcpSocket:
+                                                  port: 10022
+                                        initialDelaySeconds: 15
+                                        periodSeconds: 10
