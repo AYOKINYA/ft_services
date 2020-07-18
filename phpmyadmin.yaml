@@ -39,10 +39,6 @@ spec:
                   ports:
                       - containerPort: 5000
                         name: phpmyadmin
-                  env:
-                  - name: PMA_HOST
-                    value: mysql-service
-                  - name: PMA_PORT
-                    value: "3306"
+                  
 
                  

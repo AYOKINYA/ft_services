@@ -8,5 +8,5 @@ COPY ./influxdb.conf /etc/
 VOLUME ["/var/lib/influxdb"]
 EXPOSE 8086
 
-COPY ./start.sh ./start.sh
-#RUN sh ./start.sh
+RUN mkdir -p /run/influxd
+ENTRYPOINT ["influxd"]

@@ -12,4 +12,6 @@ COPY config.inc.php /etc/phpmyadmin/config.inc.php
 
 EXPOSE 5000
 COPY start.sh   ./start.sh
-CMD sh ./start.sh
+#CMD sh ./start.sh
+CMD php -S 0.0.0.0:5000 -t /etc/phpmyadmin/
+
