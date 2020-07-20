@@ -7,11 +7,13 @@ metadata:
 spec:
     selector:
         app: influxdb
-    type: ClusterIP
+    #type: ClusterIP
+    type: LoadBalancer
     ports:
         - port: 8086
           name: influxdb-port
           targetPort: 8086
+          nodePort: 8086
 
 ---
 
@@ -29,6 +31,23 @@ spec:
         storage: 1Gi
     hostPath:
         path: /var/lib/influxdb/
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: influxdb-secret
+  labels:
+    app: influxdb
+type: Opaque
+stringData:
+  INFLUXDB_CONFIG_PATH: /etc/influxdb.conf
+  INFLUXDB_ADMIN_USER: admin
+  INFLUXDB_ADMIN_PASSWORD: admin
+  INFLUXDB_DB: telegraf
+  INFLUXDB_USER: admin
+  INFLUXDB_USER_PASSWORD: admin
 
 ---
 
@@ -72,6 +91,9 @@ spec:
                   volumeMounts:
                       - name: influxdb-pv
                         mountPath: /var/lib/influxdb/
+                  envFrom:
+                    - secretRef:
+                        name: influxdb-secret
             volumes:
                 - name: influxdb-pv
                   persistentVolumeClaim:
