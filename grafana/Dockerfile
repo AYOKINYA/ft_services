@@ -2,8 +2,8 @@ FROM alpine
 
 RUN apk update && apk upgrade
 
-RUN apk add grafana telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
-#RUN mkdir -p /etc/grafana/provisioning/dashboards
+RUN apk add grafana --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
+RUN mkdir -p /etc/grafana/provisioning/dashboards
 
 EXPOSE 3000
 
