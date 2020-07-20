@@ -3,7 +3,7 @@ FROM alpine
 RUN apk update && apk upgrade
 RUN apk add influxdb --no-cache 
 
-COPY ./sample.conf /etc/
+COPY ./influxdb.conf /etc/
 
 VOLUME ["/var/lib/influxdb"]
 EXPOSE 8086

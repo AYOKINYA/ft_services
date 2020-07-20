@@ -1,4 +1,5 @@
 FROM alpine
+ARG IP
 
 RUN apk update
 
@@ -10,7 +11,10 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:4096 -subj '/C=KR/ST=SEOUL/L=
 
 RUN chmod 600 /etc/ssl/private/pure-ftpd.pem
 
-RUN adduser -D admin
+RUN echo $IP > ip.txt
+
+RUN mkdir -p /home/admin
+RUN adduser  --home /home/admin/ -D "admin"
 RUN echo "admin:admin" | chpasswd
 
 EXPOSE 20 21 30020 30021

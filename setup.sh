@@ -20,23 +20,28 @@ printf "Minikube IP: ${IP}\n"
 
 echo "Building images..."
 docker build -t image_nginx ./nginx
+docker build -t image_ftps ./ftps --build-arg IP=${IP}
 docker build -t image_mysql ./mysql --build-arg IP=${IP}
 docker build -t image_phpmyadmin ./phpmyadmin
 docker build -t image_wordpress ./wordpress --build-arg IP=${IP}
-#docker build -t image_grafana ./grafana
-#docker build -t image_influxdb ./influxdb
+docker build -t image_influxdb ./influxdb
+docker build -t image_telegraf ./telegraf --build-arg IP=${IP}
+docker build -t image_grafana ./grafana
+
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 kubectl apply -f metalLB_config.yaml
 
 echo "Creating pods and services..."
-kubectl create -f nginx.yaml 
+kubectl create -f nginx.yaml
+kubectl create -f ftps.yaml 
 kubectl create -f mysql.yaml
 kubectl create -f phpmyadmin.yaml
 kubectl create -f wordpress.yaml
-#kubectl create -f grafana.yaml
-#kubectl create -f influxdb.yaml
+kubectl create -f influxdb.yaml
+kubectl create -f telegraf.yaml
+kubectl create -f grafana.yaml
 
 echo "Opening the network in your browser"
 #open http://$IP
