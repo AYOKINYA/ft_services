@@ -5,3 +5,4 @@ port = 3306
 log-bin = /var/lib/mysql/mysql-bin
 bind-address = 0.0.0.0
 skip-networking = false
+socket = /run/mysqld/mysqld.sock

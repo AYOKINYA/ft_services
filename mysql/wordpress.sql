@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- 데이터베이스: `wordpress`
 --
 
+CREATE DATABASE IF NOT EXISTS `wordpress` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `wordpress`;
+  
 -- --------------------------------------------------------
 
 --
