@@ -8,12 +8,10 @@ spec:
     selector:
         app: influxdb
     type: ClusterIP
-    #type: LoadBalancer temp to get dashboard json files easily
     ports:
         - port: 8086
           name: influxdb-port
           targetPort: 8086
-          #nodePort: 8086
 
 ---
 
